@@ -15,6 +15,7 @@ const Layout = ({ children }) => {
             container
             minHeight="100vh"
             minWidth="15rem"
+            width="100vw"
             spacing={0}
             sx={{
                 display: "flex",
@@ -25,11 +26,9 @@ const Layout = ({ children }) => {
                 flexDirection: "column-reverse",
             }}
         >
-            {user && (
                 <Grid item sx={{ display: "flex", justifyContent: "center" }}>
                     <SideBar />
                 </Grid>
-            )}
             <Grid item xs>
                 <Grid container direction="column">
                     <Grid item>
