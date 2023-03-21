@@ -13,8 +13,11 @@ import Avatar from "@mui/material/Avatar";
 import React, { useContext, useState } from "react";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
-import { ColorModeContext } from "../App.jsx";
+import { ColorModeContext } from "../utils/ThemeProviderWrapper";
 import { useTheme } from "@mui/material/styles";
+import { useDispatch } from "react-redux";
+import { auth } from "../utils/firebase-config";
+import { logout } from "../features/users/userSlice";
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -57,12 +60,24 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Header() {
+    const dispatch = useDispatch();
+
     const colorMode = useContext(ColorModeContext);
     const theme = useTheme();
 
     const [anchorElUser, setAnchorElUser] = useState(null);
 
-    const settings = ["Profile", "Dashboard", "Logout"];
+    const settings = [
+        { option: "Profile", click: () => console.log("test") },
+        { option: "Dashboard", click: () => console.log("test") },
+        {
+            option: "Logout",
+            click: () => {
+                dispatch(logout());
+                auth.signOut();
+            },
+        },
+    ];
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -116,20 +131,17 @@ export default function Header() {
                     >
                         {settings.map((setting) => (
                             <MenuItem
-                                key={setting}
-                                onClick={handleCloseUserMenu}
+                                key={setting.option}
+                                onClick={setting.click}
                             >
                                 <Typography textAlign="center">
-                                    {setting}
+                                    {setting.option}
                                 </Typography>
                             </MenuItem>
                         ))}
                         <MenuItem onClick={colorMode.toggleColorMode}>
-                        {theme.palette.mode} mode
-                            <IconButton
-                                sx={{ ml: 1 }}
-                                color="inherit"
-                            >
+                            {theme.palette.mode} mode
+                            <IconButton sx={{ ml: 1 }} color="inherit">
                                 {theme.palette.mode === "dark" ? (
                                     <Brightness7Icon />
                                 ) : (

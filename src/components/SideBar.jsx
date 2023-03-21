@@ -8,10 +8,6 @@ import {
     ListItemText,
 } from "@mui/material";
 import { Container } from "@mui/system";
-import {
-    Home as HomeIcon,
-    Settings as SettingsIcon,
-} from "@mui/icons-material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
@@ -28,12 +24,12 @@ const SideBar = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const navItems = [
-        { icon: <CurrencyBitcoinIcon color="secondary" />, name: "Coins" },
-        { icon: <CurrencyExchangeIcon color="secondary" />, name: "Exchange" },
-        { icon: <AccountBalanceIcon color="secondary" />, name: "Exchange Rates" },
-        { icon: <CalculateIcon color="secondary" />, name: "Calculator" },
-        { icon: <ArticleIcon color="secondary" />, name: "News" },
-        { icon: <PublicIcon color="secondary" />, name: "Global" },
+        { icon: <CurrencyBitcoinIcon/>, name: "Coins" },
+        { icon: <CurrencyExchangeIcon />, name: "Exchange" },
+        { icon: <AccountBalanceIcon />, name: "Exchange Rates" },
+        { icon: <CalculateIcon />, name: "Calculator" },
+        { icon: <ArticleIcon />, name: "News" },
+        { icon: <PublicIcon />, name: "Global" },
     ];
 
     return (
@@ -145,9 +141,9 @@ const SideBar = () => {
                                 }}
                             >
                                 {isOpen ? (
-                                    <ArrowBackIosIcon color="secondary" />
+                                    <ArrowBackIosIcon color="text" />
                                 ) : (
-                                    <ArrowForwardIosIcon color="secondary" />
+                                    <ArrowForwardIosIcon color="text" />
                                 )}
                             </ListItemIcon>
                         </ListItemButton>
