@@ -15,7 +15,7 @@ const Layout = ({ children }) => {
             container
             minHeight="100vh"
             minWidth="15rem"
-            width="100vw"
+            width="100%"
             spacing={0}
             sx={{
                 display: "flex",
@@ -26,15 +26,22 @@ const Layout = ({ children }) => {
                 flexDirection: "column-reverse",
             }}
         >
-                <Grid item sx={{ display: "flex", justifyContent: "center" }}>
-                    <SideBar />
-                </Grid>
+            <Grid item sx={{ display: "flex", justifyContent: "center" }}>
+                <SideBar />
+            </Grid>
             <Grid item xs>
                 <Grid container direction="column">
                     <Grid item>
                         <Header />
                     </Grid>
-                    <Grid item>{children}</Grid>
+                    <Grid
+                        item
+                        sx={{ flex: "1 1 auto", overflowY: "scroll", height: "calc(100vh - 72px)",[theme.breakpoints.down("sm")]: {
+                            height: "calc(100vh - 128px)",
+                        }, }}
+                    >
+                        {children}
+                    </Grid>
                 </Grid>
             </Grid>
         </Grid>

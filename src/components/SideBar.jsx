@@ -10,12 +10,12 @@ import {
 import { Container } from "@mui/system";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
-import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
-import CalculateIcon from '@mui/icons-material/Calculate';
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import PublicIcon from '@mui/icons-material/Public';
-import ArticleIcon from '@mui/icons-material/Article';
+import CurrencyBitcoinIcon from "@mui/icons-material/CurrencyBitcoin";
+import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
+import CalculateIcon from "@mui/icons-material/Calculate";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import PublicIcon from "@mui/icons-material/Public";
+import ArticleIcon from "@mui/icons-material/Article";
 import { useTheme } from "@mui/material";
 
 const SideBar = () => {
@@ -24,7 +24,7 @@ const SideBar = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const navItems = [
-        { icon: <CurrencyBitcoinIcon/>, name: "Coins" },
+        { icon: <CurrencyBitcoinIcon />, name: "Coins" },
         { icon: <CurrencyExchangeIcon />, name: "Exchange" },
         { icon: <AccountBalanceIcon />, name: "Exchange Rates" },
         { icon: <CalculateIcon />, name: "Calculator" },
@@ -33,7 +33,19 @@ const SideBar = () => {
     ];
 
     return (
-        <AppBar color="primary" position="static">
+        <AppBar
+            color="primary"
+            sx={{
+                width: "100%",
+                height: "3.5rem",
+                position: "sticky",
+                bottom: 0,
+                [theme.breakpoints.up("sm")]: {
+                    left: 0,
+                    minHeight: "100vh",
+                },
+            }}
+        >
             <Container
                 sx={{
                     [theme.breakpoints.up("sm")]: {

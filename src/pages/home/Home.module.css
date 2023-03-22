@@ -1,5 +1,12 @@
 .container {
-    display: flex;
-    width: 100%;
-    background-color: red;
+    height: 8rem;
+    max-width: 40rem;
+}
+
+.cards {
+    height: 100%;
+}
+
+.card {
+    height: 100%;
 }
