@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -19,6 +19,9 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import { Image } from "@mui/icons-material";
+import { selectTrends } from "../../features/coins/coinSlice";
+import { fetchTrends } from "../../features/coins/coinApi";
 
 const Home = () => {
     const user = useSelector(selectUser);
@@ -26,21 +29,13 @@ const Home = () => {
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
+    const { status, error, posts } = useSelector(selectTrends);
 
-    const getData = async () => {
-        try {
-            const response = await fetch(
-                "https://pro-api.coingecko.com/api/v3/search/trending"
-            );
-            const data = await response.json();
+    useEffect(() => {
+        dispatch(fetchTrends())
+    }, [dispatch])
 
-            return data;
-        } catch (error) {
-            throw new Error(error);
-        };
-    };
-
-    console.log(getData());
+    console.log(posts);
 
     useEffect(() => {
         onAuthStateChanged(auth, (userAuth) => {
@@ -59,18 +54,15 @@ const Home = () => {
         });
     }, []);
 
-    console.log(user);
-
     return (
         <Box>
             <Container
                 sx={{
                     width: "calc(100vw - 300px)",
-                    maxWidth: "40rem",
+                    maxWidth: "50rem",
                     minWidth: "20rem",
-                    backgroundColor: "red",
-                    height: "10rem",
-                    p: 2,
+                    height: "max-content",
+                    outline: "1px solid red",
                 }}
             >
                 <Swiper
@@ -78,21 +70,17 @@ const Home = () => {
                     spaceBetween={50}
                     slidesPerView={3}
                     navigation
-                    onSwiper={(swiper) => console.log(swiper)}
                     className={styles.container}
                 >
-                    <SwiperSlide className={styles.cards}>
-                        <Card className={styles.card}>Slide 1</Card>
-                    </SwiperSlide>
-                    <SwiperSlide className={styles.cards}>
-                        <Card className={styles.card}>Slide 2</Card>
-                    </SwiperSlide>
-                    <SwiperSlide className={styles.cards}>
-                        <Card className={styles.card}>Slide 3</Card>
-                    </SwiperSlide>
-                    <SwiperSlide className={styles.cards}>
-                        <Card className={styles.card}>Slide 4</Card>
-                    </SwiperSlide>
+                    {/* {trendings.map((coin) => (
+                        <SwiperSlide key={coin.item.id} className={styles.cards}>
+                            <Card elevation={5} className={styles.card}>
+                                <img src={coin.item.thumb} alt={coin.item.name} />
+                                <Typography variant="h5">{coin.item.name}</Typography>
+                                <Typography>{coin.item.symbol}</Typography>
+                            </Card>
+                        </SwiperSlide>
+                    ))} */}
                 </Swiper>
             </Container>
         </Box>

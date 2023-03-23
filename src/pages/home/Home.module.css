@@ -1,12 +1,15 @@
 .container {
-    height: 8rem;
-    max-width: 40rem;
+    height: max-content;
 }
 
 .cards {
-    height: 100%;
+    margin: 1rem;
+    width: 15rem;
 }
 
 .card {
-    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 6rem;
 }
