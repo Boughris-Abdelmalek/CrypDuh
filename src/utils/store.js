@@ -7,5 +7,6 @@ export const store = configureStore({
         user: userReducer,
         trends: coinsReducer.trends,
         marketCharts: coinsReducer.marketCharts,
+        coinsList: coinsReducer.coinsList,
     },
 });
