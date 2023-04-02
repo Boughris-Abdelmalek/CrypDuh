@@ -17,19 +17,22 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import PublicIcon from "@mui/icons-material/Public";
 import ArticleIcon from "@mui/icons-material/Article";
 import { useTheme } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const SideBar = () => {
     const theme = useTheme();
 
     const [isOpen, setIsOpen] = useState(false);
 
+    const navigation = useNavigate("");
+
     const navItems = [
-        { icon: <CurrencyBitcoinIcon />, name: "Coins" },
-        { icon: <CurrencyExchangeIcon />, name: "Exchange" },
-        { icon: <AccountBalanceIcon />, name: "Exchange Rates" },
-        { icon: <CalculateIcon />, name: "Calculator" },
-        { icon: <ArticleIcon />, name: "News" },
-        { icon: <PublicIcon />, name: "Global" },
+        { icon: <CurrencyBitcoinIcon />, name: "Coins", path: "/coinsList" },
+        { icon: <CurrencyExchangeIcon />, name: "Exchange", path: "/exchanges" },
+        { icon: <AccountBalanceIcon />, name: "Exchange Rates", path: "/exchangeRates" },
+        { icon: <CalculateIcon />, name: "Calculator", path: "/calculator" },
+        { icon: <ArticleIcon />, name: "News", path: "/news" },
+        { icon: <PublicIcon />, name: "Global", path: "/global" },
     ];
 
     return (
@@ -92,7 +95,7 @@ const SideBar = () => {
                                 },
                             }}
                         >
-                            {navItems.map(({ icon, name }) => (
+                            {navItems.map(({ icon, name, path }) => (
                                 <ListItemButton
                                     key={name}
                                     sx={{
@@ -105,6 +108,7 @@ const SideBar = () => {
                                             m: "auto",
                                         },
                                     }}
+                                    onClick={() => navigation(path)}
                                 >
                                     <ListItemIcon
                                         sx={{

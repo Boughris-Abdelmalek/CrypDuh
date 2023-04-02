@@ -1,15 +1,39 @@
 .container {
-    height: max-content;
+    position: relative;
+    width: 100%;
+    height: fit-content;
 }
 
 .cards {
-    margin: 1rem;
-    width: 15rem;
+    margin: 1rem 0;
+    cursor: pointer;
 }
 
 .card {
     display: flex;
-    justify-content: center;
+    justify-content: left;
+    gap: 1rem;
+    padding-inline: 1rem;
     align-items: center;
+    margin: 1rem;
     height: 6rem;
+}
+
+.navigationButton__left,
+.navigationButton__right {
+    position: absolute;
+    top: 32.5%;
+    z-index: 1;
+    cursor: pointer;
+    opacity: 0.25;
+    transition: opacity .25s ease-in-out;
+}
+
+.navigationButton__left:hover,
+.navigationButton__right:hover {
+    opacity: 1;
+}
+
+.navigationButton__right {
+    right: 0;
 }

@@ -18,6 +18,7 @@ import { useTheme } from "@mui/material/styles";
 import { useDispatch } from "react-redux";
 import { auth } from "../utils/firebase-config";
 import { logout } from "../features/users/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -62,6 +63,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function Header() {
     const dispatch = useDispatch();
 
+    const navigate = useNavigate("");
+
     const colorMode = useContext(ColorModeContext);
     const theme = useTheme();
 
@@ -94,7 +97,8 @@ export default function Header() {
                     variant="h4"
                     noWrap
                     component="div"
-                    sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+                    sx={{ flexGrow: 1, cursor: "pointer", display: { xs: "none", sm: "block" } }}
+                    onClick={() => navigate("/")}
                 >
                     CrypDuh!
                 </Typography>

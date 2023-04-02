@@ -1,15 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchTrends } from "./coinApi";
-
-const initialState = {
-    posts: [],
-    status: "idle",
-    error: null,
-};
+import { fetchTrends, fetchMarketCharts } from "./coinApi";
 
 const trendsSlice = createSlice({
     name: "trends",
-    initialState,
+    initialState: {
+        posts: [],
+        status: "idle",
+        error: null,
+    },
     reducers: {},
     extraReducers: (builder) => {
         builder
@@ -27,6 +25,34 @@ const trendsSlice = createSlice({
     },
 });
 
-export const selectTrends = (state) => state.trends;
+const marketChartSlice = createSlice({
+    name: "marketCharts",
+    initialState: {
+        marketChartPosts: [],
+        marketChartStatus: "idle",
+        marketChartError: null,
+    },
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchMarketCharts.pending, (state) => {
+                state.marketChartStatus = "loading";
+            })
+            .addCase(fetchMarketCharts.fulfilled, (state, action) => {
+                state.marketChartStatus = "succeeded";
+                state.marketChartPosts = action.payload;
+            })
+            .addCase(fetchMarketCharts.rejected, (state, action) => {
+                state.marketChartStatus = "failed";
+                state.marketChartError = action.error.message;
+            });
+    },
+});
 
-export default trendsSlice.reducer;
+export const selectTrends = (state) => state.trends;
+export const selectMarketChart = (state) => state.marketCharts;
+
+export default {
+    trends: trendsSlice.reducer,
+    marketCharts: marketChartSlice.reducer,
+};

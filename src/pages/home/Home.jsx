@@ -1,43 +1,54 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
 import { login, logout, selectUser } from "../../features/users/userSlice";
 import { onAuthStateChanged, auth } from "../../utils/firebase-config";
-
-import { Box } from "@mui/system";
-import { Card, Container, Typography } from "@mui/material";
+import { Card, Container, SvgIcon, Typography, Box } from "@mui/material";
 
 import styles from "./Home.module.css";
 
-// import Swiper core and required modules
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
-// Import Swiper React components and CSS
+import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
+import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+
+import { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
-import { Image } from "@mui/icons-material";
-import { selectTrends } from "../../features/coins/coinSlice";
-import { fetchTrends } from "../../features/coins/coinApi";
+import {
+    selectTrends,
+    selectMarketChart,
+} from "../../features/coins/coinSlice";
+import { fetchTrends, fetchMarketCharts } from "../../features/coins/coinApi";
+import { useTheme } from "@emotion/react";
+import { CategoryScale } from "chart.js";
+import Chart from "chart.js/auto";
+
+import CoinChart from "../../components/CoinChart";
+
+Chart.register(CategoryScale);
 
 const Home = () => {
-    const user = useSelector(selectUser);
-
     const navigate = useNavigate();
-
     const dispatch = useDispatch();
     const { status, error, posts } = useSelector(selectTrends);
+    const { marketChartStatus, marketChartError, marketChartPosts } =
+        useSelector(selectMarketChart);
+    const user = useSelector(selectUser);
+    const prevButtonRef = useRef(null);
+    const nextButtonRef = useRef(null);
+    const theme = useTheme();
+    const [coinId, setCoinId] = useState("bitcoin");
+    const [timeFrame, setTimeFrame] = useState(7);
 
-    useEffect(() => {
-        dispatch(fetchTrends())
-    }, [dispatch])
+    const fetchCoins = () => {
+        dispatch(fetchTrends());
+    };
 
-    console.log(posts);
+    const handleTimeFrame = (day) => {
+        setTimeFrame(day);
+    };
 
-    useEffect(() => {
+    const handleAuthStateChange = () => {
         onAuthStateChanged(auth, (userAuth) => {
             if (userAuth) {
                 dispatch(
@@ -52,36 +63,90 @@ const Home = () => {
                 navigate("/login");
             }
         });
+    };
+
+    useEffect(() => {
+        fetchCoins();
+    }, []);
+
+    useEffect(() => {
+        dispatch(fetchMarketCharts({coin: coinId, days: timeFrame}));
+    }, [coinId, timeFrame]);
+
+    useEffect(() => {
+        handleAuthStateChange();
     }, []);
 
     return (
         <Box>
             <Container
                 sx={{
-                    width: "calc(100vw - 300px)",
+                    width: "calc(100vw - 200px)",
                     maxWidth: "50rem",
                     minWidth: "20rem",
                     height: "max-content",
-                    outline: "1px solid red",
+                    [theme.breakpoints.down("sm")]: {
+                        width: "calc(100vw - 50px)",
+                    },
                 }}
             >
                 <Swiper
-                    modules={[Navigation, Pagination, Scrollbar, A11y]}
-                    spaceBetween={50}
-                    slidesPerView={3}
-                    navigation
+                    modules={[Navigation]}
+                    navigation={{
+                        prevEl: prevButtonRef.current,
+                        nextEl: nextButtonRef.current,
+                    }}
+                    spaceBetween={10}
+                    slidesPerView={1.5}
+                    centeredSlides
                     className={styles.container}
                 >
-                    {/* {trendings.map((coin) => (
-                        <SwiperSlide key={coin.item.id} className={styles.cards}>
+                    <Box className={styles.navigationButton__left}>
+                        <SvgIcon
+                            component={ArrowCircleLeftIcon}
+                            ref={prevButtonRef}
+                            sx={{ fontSize: 60 }}
+                        />
+                    </Box>
+                    {posts.map((coin) => (
+                        <SwiperSlide
+                            key={coin.item.id}
+                            className={styles.cards}
+                            onClick={() => setCoinId(coin.item.id)}
+                        >
                             <Card elevation={5} className={styles.card}>
-                                <img src={coin.item.thumb} alt={coin.item.name} />
-                                <Typography variant="h5">{coin.item.name}</Typography>
-                                <Typography>{coin.item.symbol}</Typography>
+                                <img
+                                    src={coin.item.small}
+                                    alt={coin.item.name}
+                                />
+                                <Box className={styles.sliderTrendsInfos}>
+                                    <Typography variant="h5">
+                                        {coin.item.name}
+                                    </Typography>
+                                    <Typography>
+                                        {parseFloat(
+                                            coin.item.price_btc
+                                        ).toFixed(8)}{" "}
+                                        BTC
+                                    </Typography>
+                                </Box>
                             </Card>
                         </SwiperSlide>
-                    ))} */}
+                    ))}
+                    <Box className={styles.navigationButton__right}>
+                        <SvgIcon
+                            component={ArrowCircleRightIcon}
+                            ref={nextButtonRef}
+                            sx={{ fontSize: 60 }}
+                        />
+                    </Box>
                 </Swiper>
+                <CoinChart
+                    chartData={marketChartPosts}
+                    coinId={coinId}
+                    handleTimeFrame={handleTimeFrame}
+                    days={timeFrame}
+                />
             </Container>
         </Box>
     );
