@@ -27,3 +27,11 @@ export const fetchCoinsList = createAsyncThunk(
         return response.data;
     }
 );
+
+export const fetchExchanges = createAsyncThunk(
+    "fetchData/coinsList",
+    async () => {
+        const response = await cryptoCoin.get("/exchanges");
+        return response.data;
+    }
+);

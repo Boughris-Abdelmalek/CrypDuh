@@ -73,12 +73,38 @@ const coinsListSlice = createSlice({
     },
 });
 
+const exchangesSlice = createSlice({
+    name: "exchanges",
+    initialState: {
+        exchangesPosts: [],
+        exchangesStatus: "idle",
+        exchangesError: null,
+    },
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchCoinsList.pending, (state) => {
+                state.exchangesStatus = "loading";
+            })
+            .addCase(fetchCoinsList.fulfilled, (state, action) => {
+                state.exchangesStatus = "succeeded";
+                state.exchangesPosts = action.payload;
+            })
+            .addCase(fetchCoinsList.rejected, (state, action) => {
+                state.exchangesStatus = "failed";
+                state.exchangesError = action.error.message;
+            });
+    },
+});
+
 export const selectTrends = (state) => state.trends;
 export const selectMarketChart = (state) => state.marketCharts;
 export const selectCoinsList = (state) => state.coinsList;
+export const selectExchanges = (state) => state.exchanges;
 
 export default {
     trends: trendsSlice.reducer,
     marketCharts: marketChartSlice.reducer,
     coinsList: coinsListSlice.reducer,
+    exchanges: exchangesSlice.reducer,
 };

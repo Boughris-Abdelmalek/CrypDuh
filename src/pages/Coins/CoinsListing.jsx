@@ -40,7 +40,6 @@ export default function CoinsListing() {
         dispatch(fetchCoinsList());
     }, []);
 
-    console.log(coinsListPosts);
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 280 }} aria-label="simple table">

@@ -8,5 +8,6 @@ export const store = configureStore({
         trends: coinsReducer.trends,
         marketCharts: coinsReducer.marketCharts,
         coinsList: coinsReducer.coinsList,
+        exchanges: coinsReducer.exchanges,
     },
 });

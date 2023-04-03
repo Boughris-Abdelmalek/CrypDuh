@@ -28,8 +28,8 @@ const SideBar = () => {
 
     const navItems = [
         { icon: <CurrencyBitcoinIcon />, name: "Coins", path: "/coinsList" },
-        { icon: <CurrencyExchangeIcon />, name: "Exchange", path: "/exchanges" },
-        { icon: <AccountBalanceIcon />, name: "Exchange Rates", path: "/exchangeRates" },
+        { icon: <AccountBalanceIcon />, name: "Exchange", path: "/exchanges" },
+        { icon: <CurrencyExchangeIcon />, name: "Exchange Rates", path: "/exchangeRates" },
         { icon: <CalculateIcon />, name: "Calculator", path: "/calculator" },
         { icon: <ArticleIcon />, name: "News", path: "/news" },
         { icon: <PublicIcon />, name: "Global", path: "/global" },
@@ -79,7 +79,7 @@ const SideBar = () => {
                             justifyContent: "space-between",
                             alignItems: "center",
                             height: "100%",
-                            width: isOpen ? "8rem" : "2rem",
+                            width: isOpen ? "7.25rem" : "2rem",
                             transition: "width 0.25s ease-in-out",
                         }}
                     >
